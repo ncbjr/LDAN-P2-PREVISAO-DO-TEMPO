@@ -5,19 +5,20 @@ import axios from 'axios';
 //https://open-meteo.com/en/docs#weather_variable_documentation códigos e descrições
 
 const getWeatherInfo = (code) => {
-  if (code = 0) return { desc: 'Céu limpo', emoji: '☀️' };
-  if (code == 1 || code == 2 || code == 3) return { desc: 'Parcialmente nublado', emoji: '⛅' };
-  if (code == 45 || code == 48) return { desc: 'Neblina', emoji: '🌫️' };
-  if (code == 51 || code == 53 || code == 55) return { desc: 'Chuva fraca', emoji: '🌦️' };
-  if (code == 56 || code == 57) return { desc: 'Chuva congelante', emoji: '🌨️' };
-  if (code == 61 || code == 63 || code == 65) return { desc: 'Chuva', emoji: '🌧️' }
-  if (code == 66 || code == 67) return { desc: 'Chuva forte', emoji: '⛈️' };
-  if (code == 71 || code == 73 || code == 75) return { desc: 'Neve', emoji: '❄️' };
-  if (code == 77) return { desc: 'Granizo', emoji: '🌨️' };
-  if (code == 80 || code == 81 || code == 82) return { desc: 'Chuva forte', emoji: '⛈️' };
-  if (code == 85 || code == 86) return { desc: 'Neve forte', emoji: '❄️' };
-  if (code == 95) return { desc: 'Tempestade', emoji: '⛈️' };
-  if (code == 96 || code == 99) return { desc: 'Tempestade com granizo', emoji: '⛈️' };
+  const numCode = Number(code);
+  if (numCode == 0) return { desc: 'Céu limpo', emoji: '☀️' };
+  if (numCode == 1 || numCode == 2 || numCode == 3) return { desc: 'Parcialmente nublado', emoji: '⛅' };
+  if (numCode == 45 || numCode == 48) return { desc: 'Neblina', emoji: '🌫️' };
+  if (numCode == 51 || numCode == 53 || numCode == 55) return { desc: 'Chuva fraca', emoji: '🌦️' };
+  if (numCode == 56 || numCode == 57) return { desc: 'Chuva congelante', emoji: '🌨️' };
+  if (numCode == 61 || numCode == 63 || numCode == 65) return { desc: 'Chuva', emoji: '🌧️' };
+  if (numCode == 66 || numCode == 67) return { desc: 'Chuva forte', emoji: '⛈️' };
+  if (numCode == 71 || numCode == 73 || numCode == 75) return { desc: 'Neve', emoji: '❄️' };
+  if (numCode == 77) return { desc: 'Granizo', emoji: '🌨️' };
+  if (numCode == 80 || numCode == 81 || numCode == 82) return { desc: 'Chuva forte', emoji: '⛈️' };
+  if (numCode == 85 || numCode == 86) return { desc: 'Neve forte', emoji: '❄️' };
+  if (numCode == 95) return { desc: 'Tempestade', emoji: '⛈️' };
+  if (numCode == 96 || numCode == 99) return { desc: 'Tempestade com granizo', emoji: '⛈️' };
   return { desc: 'Desconhecido', emoji: '❓' };
 };
 
@@ -60,6 +61,7 @@ export default function App() {
       
       // mapeia o código do clima pra descrição e ícone
       const weatherCode = weatherResponse.data.current.weather_code;
+      console.log('weather code:', weatherCode);
       const { desc, emoji } = getWeatherInfo(weatherCode);
       setDescription(desc);
       setIcon(emoji);
