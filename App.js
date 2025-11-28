@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, KeyboardAvoidingView, Platform } from 'react-native';
 import axios from 'axios';
 
 //https://open-meteo.com/en/docs#weather_variable_documentation códigos e descrições
@@ -73,24 +73,31 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Digite a cidade"
-        value={city}
-        onChangeText={setCity}
-      />
-      <Button title="Buscar" onPress={buscarClima} />
-      
+    <KeyboardAvoidingView 
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+    >
       {cityName ? (
-        <View style={styles.resultado}>
+        <View style={styles.card}>
           <Text style={styles.icon}>{icon}</Text>
-          <Text>Cidade: {cityName}</Text>
-          <Text>Temperatura: {temp}°C</Text>
-          <Text>Descrição: {description}</Text>
+          <Text style={styles.cityInfo}>{cityName} | {description}</Text>
+          <Text style={styles.temp}>{temp}°C</Text>
         </View>
       ) : null}
-    </View>
+      
+      <View style={styles.buscaContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite a cidade"
+          value={city}
+          onChangeText={setCity}
+        />
+        <View style={styles.buttonContainer}>
+          <Button title="Buscar" onPress={buscarClima} color="#1976d2" />
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -98,19 +105,45 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    justifyContent: 'space-between',
+  },
+  buscaContainer: {
     padding: 20,
-    paddingTop: 50,
+    paddingBottom: 30,
   },
   input: {
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: '#1976d2',
+    padding: 12,
+    marginBottom: 15,
+    fontSize: 16,
   },
-  resultado: {
-    marginTop: 20,
+  buttonContainer: {
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  card: {
+    backgroundColor: '#f5f5f5',
+    borderRadius: 10,
+    padding: 30,
+    margin: 20,
+    marginTop: 50,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   icon: {
-    fontSize: 50,
+    fontSize: 60,
+    marginBottom: 15,
+  },
+  cityInfo: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  temp: {
+    fontSize: 32,
+    fontWeight: 'bold',
     textAlign: 'center',
   },
 });
