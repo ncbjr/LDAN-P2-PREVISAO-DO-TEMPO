@@ -32,8 +32,7 @@ export default function App() {
       console.log('url:', weatherUrl);
       const weatherResponse = await axios.get(weatherUrl);
       console.log('response:', weatherResponse.data);
-      setTemp(weatherResponse.data.temperature); 
-      // não ta funcionando
+      setTemp(weatherResponse.data.current.temperature_2m); //agora sim
     } catch (error) {
       console.log('erro:', error);
       setCityName('Erro');
